@@ -84,6 +84,12 @@ To connect to the gateway, an MCP client needs to be configured with the followi
 *   **Port:** The port that the gateway is listening on.
 *   **Authentication:** The client will need to authenticate with the gateway using a JWT. The JWT can be obtained from the `/token` endpoint of the management API.
 
+The client should send the appropriate authentication credentials in the `headers` of the `initialize` request.
+
+#### JWT Authentication
+
+The client will need to authenticate with the gateway using a JWT. The JWT can be obtained from the `/token` endpoint of the management API.
+
 The client should send the JWT in the `Authorization` header of the `initialize` request, using the `Bearer` scheme. For example:
 
 ```json
@@ -99,6 +105,52 @@ The client should send the JWT in the `Authorization` header of the `initialize`
   "id": 1,
   "headers": {
     "Authorization": "Bearer <your_jwt>"
+  }
+}
+```
+
+#### API Key Authentication
+
+If the tool is configured to use API Key authentication, the client should send the API key in the header specified in the `api_key_details`.
+
+**Example:**
+
+```json
+{
+  "jsonrpc": "2.0",
+  "method": "tools/call",
+  "params": {
+    "name": "my_api",
+    "arguments": {
+      "some_key": "some_value"
+    }
+  },
+  "id": 1,
+  "headers": {
+    "X-API-KEY": "my_secret_key"
+  }
+}
+```
+
+#### Basic Authentication
+
+If the tool is configured to use Basic Authentication, the client should send the username and password in the `Authorization` header, using the `Basic` scheme.
+
+**Example:**
+
+```json
+{
+  "jsonrpc": "2.0",
+  "method": "tools/call",
+  "params": {
+    "name": "another_api",
+    "arguments": {
+      "some_key": "some_value"
+    }
+  },
+  "id": 1,
+  "headers": {
+    "Authorization": "Basic <base64_encoded_username_and_password>"
   }
 }
 ```
