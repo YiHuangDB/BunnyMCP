@@ -134,4 +134,6 @@ Add a new entry to the `mcpServers` object with the following configuration:
 }
 ```
 
+**Note:** The `command` and `args` in this example assume that `uvicorn` is in your system's `PATH`. If you are using a virtual environment, you will need to provide the full path to the `uvicorn` executable in your virtual environment (e.g., `/path/to/your/project/.venv/bin/uvicorn`).
+
 Restart Claude Desktop to apply the changes.
