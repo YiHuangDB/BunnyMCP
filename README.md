@@ -137,3 +137,50 @@ Add a new entry to the `mcpServers` object with the following configuration:
 **Note:** The `command` and `args` in this example assume that `uvicorn` is in your system's `PATH`. If you are using a virtual environment, you will need to provide the full path to the `uvicorn` executable in your virtual environment (e.g., `/path/to/your/project/.venv/bin/uvicorn`).
 
 Restart Claude Desktop to apply the changes.
+
+### Authentication Configuration
+
+The gateway supports two types of authentication: API Key and Basic Auth. The authentication type is configured in the `ToolConfiguration` object.
+
+#### API Key Authentication
+
+To use API Key authentication, set the `auth_type` to `API_KEY` and provide the API key details in the `api_key_details` field. The `api_key_details` field should be a JSON object with the following fields:
+
+*   `in`: The location of the API key. Supported values are `header` and `query`.
+*   `name`: The name of the API key header or query parameter.
+
+**Example:**
+
+```json
+{
+  "name": "my_api",
+  "url": "https://httpbin.org/post",
+  "auth_type": "API_KEY",
+  "auth_credentials": {
+    "key": "X-API-KEY",
+    "value": "my_secret_key"
+  },
+  "api_key_details": {
+    "in": "header",
+    "name": "X-API-KEY"
+  }
+}
+```
+
+#### Basic Authentication
+
+To use Basic Authentication, set the `auth_type` to `BASIC_AUTH`. The `auth_credentials` field should be a JSON object with `username` and `password` fields.
+
+**Example:**
+
+```json
+{
+  "name": "another_api",
+  "url": "https://api.example.com",
+  "auth_type": "BASIC_AUTH",
+  "auth_credentials": {
+    "username": "my_username",
+    "password": "my_password"
+  }
+}
+```
