@@ -1,0 +1,22 @@
+[tool.poetry]
+name = "gateway"
+version = "0.1.0"
+description = "A universal REST API to MCP Tool Gateway"
+authors = ["Jules"]
+
+[tool.poetry.dependencies]
+python = "^3.11"
+fastapi = "^0.116.1"
+psycopg2-binary = "^2.9.9"
+hvac = "^3.0.0"
+mcp-sdk = "^0.0.1a5"
+uvicorn = "^0.35.0"
+sqlalchemy = "^2.0.31"
+passlib = {extras = ["bcrypt"], version = "^1.7.4"}
+python-jose = {extras = ["cryptography"], version = "^3.3.0"}
+python-multipart = "^0.0.20"
+prometheus-client = "^0.20.0"
+
+[tool.poetry.dev-dependencies]
+pytest = "^8.4.1"
+httpx = "^0.28.1"
