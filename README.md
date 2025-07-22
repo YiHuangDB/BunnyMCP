@@ -40,10 +40,11 @@ The gateway includes the following features:
     pip install -e .
     ```
 
-4.  **Start the database and vault:**
+4.  **Start the database and vault using Docker Compose:**
     ```bash
     docker-compose up -d
     ```
+    This will start a PostgreSQL database and a HashiCorp Vault instance in the background.
 
 ## Configuration
 
@@ -52,7 +53,10 @@ The gateway includes the following features:
     *   `VAULT_URL`: The URL of the HashiCorp Vault instance.
     *   `VAULT_TOKEN`: The token for authenticating with HashiCorp Vault.
 
-    You can set these variables in a `.env` file in the root of the project.
+    A `.env.example` file is provided with the default values for the Docker Compose setup. You can copy this file to `.env` and modify it as needed:
+    ```bash
+    cp .env.example .env
+    ```
 
 2.  **Run the database migrations.** The first time you run the application, you will need to create the database tables. You can do this by running the following command:
     ```bash
