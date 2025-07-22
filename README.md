@@ -74,3 +74,30 @@ The gateway includes the following features:
     ```bash
     pytest
     ```
+
+## MCP Client Configuration
+
+To connect to the gateway, an MCP client needs to be configured with the following information:
+
+*   **Host:** The hostname or IP address of the gateway.
+*   **Port:** The port that the gateway is listening on.
+*   **Authentication:** The client will need to authenticate with the gateway using a JWT. The JWT can be obtained from the `/token` endpoint of the management API.
+
+The client should send the JWT in the `Authorization` header of the `initialize` request, using the `Bearer` scheme. For example:
+
+```json
+{
+  "jsonrpc": "2.0",
+  "method": "initialize",
+  "params": {
+    "protocolVersion": "0.1",
+    "capabilities": {
+      "tools": true
+    }
+  },
+  "id": 1,
+  "headers": {
+    "Authorization": "Bearer <your_jwt>"
+  }
+}
+```
