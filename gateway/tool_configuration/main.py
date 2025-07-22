@@ -9,7 +9,14 @@ from datetime import timedelta
 from starlette.responses import Response
 from prometheus_client import generate_latest
 
-models.Base.metadata.create_all(bind=database.engine)
+from sqlalchemy import inspect
+
+def check_db_initialized():
+    inspector = inspect(database.engine)
+    if not inspector.has_table("tool_configurations"):
+        models.Base.metadata.create_all(bind=database.engine)
+
+check_db_initialized()
 
 app = FastAPI()
 

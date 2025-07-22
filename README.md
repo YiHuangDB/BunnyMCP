@@ -58,10 +58,7 @@ The gateway includes the following features:
     cp .env.example .env
     ```
 
-2.  **Run the database migrations.** The first time you run the application, you will need to create the database tables. You can do this by running the following command:
-    ```bash
-    python -c "from gateway.tool_configuration.database import Base, engine; Base.metadata.create_all(bind=engine)"
-    ```
+2.  **Database Initialization.** The application will automatically create the necessary database tables the first time it is run.
 
 ## Usage
 
