@@ -1,0 +1,76 @@
+# Universal REST API to MCP Tool Gateway
+
+This project implements a universal REST API to MCP Tool Gateway, as specified in the requirements document.
+
+The gateway includes the following features:
+
+- **MCP Gateway Service:** A stateless service that acts as the entry point for AI agents, handling the MCP protocol and orchestrating API calls.
+- **Tool Configuration Service:** A RESTful API for managing tool configurations, including CRUD operations for tools and their authentication settings.
+- **Secure Credential Vault:** Integration with HashiCorp Vault for secure storage and retrieval of API credentials.
+- **Execution Engine:** A dedicated service for executing API calls, with just-in-time credential retrieval and support for various authentication methods.
+- **Call History and Audit Service:** A service for logging all API calls and administrative actions, providing a persistent and immutable audit trail.
+- **Role-Based Access Control (RBAC):** A basic RBAC system for the management API to enforce the principle of least privilege.
+- **Advanced Querying:** Advanced querying capabilities for the Tool Configuration and Call History services.
+- **Monitoring and Alerting:** A Prometheus-compatible `/metrics` endpoint for monitoring API latency, error rates, and other key metrics.
+
+## Installation
+
+### Prerequisites
+
+* Python 3.11 or higher
+* A virtual environment tool (e.g., `venv`)
+* Docker and Docker Compose (for running the database and vault)
+
+### Setup
+
+1.  **Clone the repository:**
+    ```bash
+    git clone <repository_url>
+    cd gateway
+    ```
+
+2.  **Create and activate a virtual environment:**
+    ```bash
+    python -m venv .venv
+    source .venv/bin/activate  # On Windows: .venv\Scripts\activate
+    ```
+
+3.  **Install the dependencies:**
+    ```bash
+    pip install -e .
+    ```
+
+4.  **Start the database and vault:**
+    ```bash
+    docker-compose up -d
+    ```
+
+## Configuration
+
+1.  **Set the environment variables.** The application requires the following environment variables to be set:
+    *   `DATABASE_URL`: The URL of the PostgreSQL database.
+    *   `VAULT_URL`: The URL of the HashiCorp Vault instance.
+    *   `VAULT_TOKEN`: The token for authenticating with HashiCorp Vault.
+
+    You can set these variables in a `.env` file in the root of the project.
+
+2.  **Run the database migrations.** The first time you run the application, you will need to create the database tables. You can do this by running the following command:
+    ```bash
+    python -c "from gateway.tool_configuration.database import Base, engine; Base.metadata.create_all(bind=engine)"
+    ```
+
+## Usage
+
+### Running the application
+
+1.  **Run the application using `uvicorn`:**
+    ```bash
+    uvicorn gateway.tool_configuration.main:app --reload
+    ```
+
+### Running the tests
+
+1.  **Run the tests using `pytest`:**
+    ```bash
+    pytest
+    ```
