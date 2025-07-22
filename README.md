@@ -101,3 +101,33 @@ The client should send the JWT in the `Authorization` header of the `initialize`
   }
 }
 ```
+
+## Integration with Claude Desktop
+
+To configure the gateway in Claude Desktop, you will need to edit the `claude_desktop_config.json` file. On macOS, this file is located at `~/Library/Application Support/Claude/claude_desktop_config.json`.
+
+Add a new entry to the `mcpServers` object with the following configuration:
+
+```json
+{
+  "mcpServers": {
+    "My Gateway": {
+      "command": "uvicorn",
+      "args": [
+        "gateway.tool_configuration.main:app",
+        "--host",
+        "127.0.0.1",
+        "--port",
+        "8000"
+      ],
+      "env": {
+        "DATABASE_URL": "postgresql://user:password@localhost/mcp_gateway",
+        "VAULT_URL": "http://localhost:8200",
+        "VAULT_TOKEN": "root"
+      }
+    }
+  }
+}
+```
+
+Restart Claude Desktop to apply the changes.
