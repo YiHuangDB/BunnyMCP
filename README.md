@@ -132,21 +132,21 @@ This prompt would be translated by the AI into a `tools/call` request for the `c
 
 ```json
 {
-  "mcp_tool_name": "get_posts",
-  "mcp_tool_description": "Get posts from the JSONPlaceholder API.",
+  "mcp_tool_name": "draw_cards",
+  "mcp_tool_description": "Draw cards from a deck.",
   "target_api_method": "GET",
-  "target_api_url_template": "https://jsonplaceholder.typicode.com/posts",
+  "target_api_url_template": "https://deckofcardsapi.com/api/deck/new/draw/",
   "parameter_mappings": {
     "query": [
       {
-        "name": "userId",
-        "required": false
+        "name": "count",
+        "required": true
       },
       {
         "name": "sort",
         "required": false,
-        "default": "asc",
-        "options": ["asc", "desc"]
+        "default": "AS",
+        "options": ["AS", "2S", "3S", "4S", "5S", "6S", "7S", "8S", "9S", "TS", "JS", "QS", "KS"]
       }
     ],
     "path": []
