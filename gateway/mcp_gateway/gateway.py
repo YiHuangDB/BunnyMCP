@@ -2,7 +2,9 @@ from mcp_sdk import "MCPServer, MCPConnection, Tool"
 from gateway.tool_configuration.crud import get_tool_configuration, get_tool_configurations
 from gateway.execution_engine.engine import ExecutionEngine
 from gateway.tool_configuration.database import SessionLocal
+from gateway.tool_configuration import prompt_crud
 import json
+import uuid
 
 class Gateway(MCPServer):
     def __init__(self, execution_engine: ExecutionEngine):
@@ -42,6 +44,25 @@ class Gateway(MCPServer):
                         inputSchema=self._generate_input_schema(tool_config.parameter_mappings),
                     )
                 )
+            tools.append(
+                Tool(
+                    name="create_tool_from_prompt",
+                    description="Create a new tool from a prompt.",
+                    inputSchema={
+                        "type": "object",
+                        "properties": {
+                            "mcp_tool_name": {"type": "string"},
+                            "mcp_tool_description": {"type": "string"},
+                            "target_api_method": {"type": "string"},
+                            "target_api_url_template": {"type": "string"},
+                            "parameter_mappings": {"type": "object"},
+                            "auth_type": {"type": "string"},
+                            "raw_credentials": {"type": "object"},
+                            "api_key_details": {"type": "object"},
+                        },
+                    },
+                )
+            )
             return tools
         finally:
             db.close()
@@ -58,3 +79,22 @@ class Gateway(MCPServer):
             elif param_type == "body" and params == "all":
                 schema["properties"]["body"] = {"type": "object"}
         return schema
+
+    async def handle_create_tool_from_prompt(self, connection: "MCPConnection", arguments: any) -> any:
+        db = SessionLocal()
+        try:
+            # In a real application, the owner_id would come from the authenticated user
+            owner_id = uuid.uuid4()
+
+            tool_config = prompt_crud.create_tool_from_prompt(
+                db=db,
+                vault_client=self.execution_engine.vault_client,
+                owner_id=owner_id,
+                **arguments,
+            )
+            return {
+                "content": f"Tool '{tool_config.mcp_tool_name}' created successfully.",
+                "isError": False,
+            }
+        finally:
+            db.close()

@@ -109,6 +109,25 @@ If the tool is configured to use API Key authentication, the client should send 
 }
 ```
 
+### Creating Tools from a Prompt
+
+You can also create new tools on the fly by using the `create_tool_from_prompt` tool. This tool takes the following arguments:
+
+*   `mcp_tool_name`: The name of the tool to create.
+*   `mcp_tool_description`: A description of the tool.
+*   `target_api_method`: The HTTP method of the target API.
+*   `target_api_url_template`: The URL template of the target API.
+*   `parameter_mappings`: A JSON object that maps the MCP parameters to the target API parameters.
+*   `auth_type`: The authentication type.
+*   `raw_credentials`: A JSON object containing the raw authentication credentials.
+*   `api_key_details`: A JSON object containing the API key details (only for API Key authentication).
+
+**Example:**
+
+```
+Human: Create a new tool called "get_weather" that gets the weather for a given city. The tool should use the "GET" method and the URL template "https://api.weather.com/v1/current.json?q={city}". The API key is "my_weather_api_key".
+```
+
 #### Basic Authentication
 
 If the tool is configured to use Basic Authentication, the client should send the username and password in the `Authorization` header, using the `Basic` scheme.
