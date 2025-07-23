@@ -132,18 +132,24 @@ This prompt would be translated by the AI into a `tools/call` request for the `c
 
 ```json
 {
-  "mcp_tool_name": "get_user",
-  "mcp_tool_description": "Get a user from the JSONPlaceholder API.",
+  "mcp_tool_name": "get_posts",
+  "mcp_tool_description": "Get posts from the JSONPlaceholder API.",
   "target_api_method": "GET",
-  "target_api_url_template": "https://jsonplaceholder.typicode.com/users/{userId}",
+  "target_api_url_template": "https://jsonplaceholder.typicode.com/posts",
   "parameter_mappings": {
-    "path": [
+    "query": [
       {
         "name": "userId",
-        "required": true
+        "required": false
+      },
+      {
+        "name": "sort",
+        "required": false,
+        "default": "asc",
+        "options": ["asc", "desc"]
       }
     ],
-    "query": []
+    "path": []
   },
   "auth_type": "NO_AUTH"
 }
