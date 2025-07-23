@@ -14,6 +14,12 @@ class AuthType(str, Enum):
     API_KEY = "API_KEY"
     BASIC_AUTH = "BASIC_AUTH"
 
+class Parameter(BaseModel):
+    name: str
+    required: bool = False
+    default: Any | None = None
+    options: List[str] | None = None
+
 class ToolConfiguration(BaseModel):
     id: uuid.UUID = Field(default_factory=uuid.uuid4)
     owner_id: uuid.UUID
@@ -21,7 +27,7 @@ class ToolConfiguration(BaseModel):
     mcp_tool_description: str
     target_api_method: HttpMethod
     target_api_url_template: str
-    parameter_mappings: Dict[str, Any]
+    parameter_mappings: Dict[str, List[Parameter]]
     authentication_config_id: uuid.UUID
     created_at: datetime.datetime = Field(default_factory=datetime.datetime.now)
     updated_at: datetime.datetime = Field(default_factory=datetime.datetime.now)

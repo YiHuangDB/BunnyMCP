@@ -98,16 +98,17 @@ class Gateway(MCPServer):
             db.close()
 
     def _generate_input_schema(self, parameter_mappings: dict) -> dict:
-        schema = {"type": "object", "properties": {}}
+        schema = {"type": "object", "properties": {}, "required": []}
         for param_type, params in parameter_mappings.items():
-            if param_type == "path":
-                for param in params:
-                    schema["properties"][param] = {"type": "string"}
-            elif param_type == "query":
-                for param in params:
-                    schema["properties"][param] = {"type": "string"}
-            elif param_type == "body" and params == "all":
-                schema["properties"]["body"] = {"type": "object"}
+            for param in params:
+                param_schema = {"type": "string"}
+                if param.default:
+                    param_schema["default"] = param.default
+                if param.options:
+                    param_schema["enum"] = param.options
+                schema["properties"][param.name] = param_schema
+                if param.required:
+                    schema["required"].append(param.name)
         return schema
 
     async def handle_create_tool_from_prompt(self, connection: "MCPConnection", arguments: any) -> any:

@@ -137,7 +137,12 @@ This prompt would be translated by the AI into a `tools/call` request for the `c
   "target_api_method": "GET",
   "target_api_url_template": "https://jsonplaceholder.typicode.com/users/{userId}",
   "parameter_mappings": {
-    "path": ["userId"],
+    "path": [
+      {
+        "name": "userId",
+        "required": true
+      }
+    ],
     "query": []
   },
   "auth_type": "NO_AUTH"
