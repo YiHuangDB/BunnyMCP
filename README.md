@@ -205,6 +205,12 @@ Human: Create a new incident with the title "Server is down" and the description
 Human: List all high priority incidents.
 ```
 
+**Get the call history for a tool:**
+
+```
+Human: Get the call history for the "get_weather" tool.
+```
+
 ### Authentication Configuration
 
 The gateway supports two types of authentication: API Key and Basic Auth. The authentication type is configured in the `ToolConfiguration` object.

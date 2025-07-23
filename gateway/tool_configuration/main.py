@@ -1,7 +1,7 @@
 from fastapi import FastAPI, Depends, HTTPException, status
 from fastapi.security import OAuth2PasswordRequestForm
 from sqlalchemy.orm import Session
-from . import crud, models, database, vault, security, monitoring
+from . import crud, models, database, vault, security, monitoring, history_crud
 from typing import List
 import uuid
 import os
@@ -105,6 +105,10 @@ async def login_for_access_token(form_data: OAuth2PasswordRequestForm = Depends(
     )
     return {"access_token": access_token, "token_type": "bearer"}
 
+@app.post("/history/", response_model=models.CallRecord)
+def create_call_record(call_record: models.CallRecord, db: Session = Depends(database.get_db)):
+    return history_crud.create_call_record(db=db, call_record=call_record)
+
 @app.get("/history/", response_model=List[models.CallRecord])
 def read_call_records(
     tool_id: uuid.UUID = None,
@@ -115,7 +119,7 @@ def read_call_records(
     limit: int = 100,
     db: Session = Depends(database.get_db),
 ):
-    return history.get_call_records(
+    return history_crud.get_call_records(
         db,
         tool_id=tool_id,
         start_date=start_date,

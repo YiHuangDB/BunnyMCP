@@ -2,7 +2,7 @@ from mcp_sdk import "MCPServer, MCPConnection, Tool"
 from gateway.tool_configuration.crud import get_tool_configuration, get_tool_configurations
 from gateway.execution_engine.engine import ExecutionEngine
 from gateway.tool_configuration.database import SessionLocal
-from gateway.tool_configuration import prompt_crud
+from gateway.tool_configuration import prompt_crud, history_crud
 import json
 import uuid
 
@@ -27,6 +27,22 @@ class Gateway(MCPServer):
             return {
                 "content": response.text,
                 "isError": response.is_error,
+            }
+        finally:
+            db.close()
+
+    async def handle_get_call_history_by_tool_name(self, connection: "MCPConnection", arguments: any) -> any:
+        db = SessionLocal()
+        try:
+            call_records = history_crud.get_call_records_by_tool_name(
+                db=db,
+                tool_name=arguments["tool_name"],
+                skip=arguments.get("skip", 0),
+                limit=arguments.get("limit", 100),
+            )
+            return {
+                "content": [record.__dict__ for record in call_records],
+                "isError": False,
             }
         finally:
             db.close()
@@ -59,6 +75,20 @@ class Gateway(MCPServer):
                             "auth_type": {"type": "string"},
                             "raw_credentials": {"type": "object"},
                             "api_key_details": {"type": "object"},
+                        },
+                    },
+                )
+            )
+            tools.append(
+                Tool(
+                    name="get_call_history_by_tool_name",
+                    description="Get the call history for a specific tool.",
+                    inputSchema={
+                        "type": "object",
+                        "properties": {
+                            "tool_name": {"type": "string"},
+                            "skip": {"type": "integer"},
+                            "limit": {"type": "integer"},
                         },
                     },
                 )
