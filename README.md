@@ -164,6 +164,28 @@ Add a new entry to the `mcpServers` object with the following configuration:
 
 Restart Claude Desktop to apply the changes.
 
+## Example Prompts
+
+Here are some example prompts you can use to interact with the gateway:
+
+**Get a user from the CRM:**
+
+```
+Human: Get the user with the ID "123" from the CRM.
+```
+
+**Create a new incident:**
+
+```
+Human: Create a new incident with the title "Server is down" and the description "The main web server is not responding."
+```
+
+**List all high priority incidents:**
+
+```
+Human: List all high priority incidents.
+```
+
 ### Authentication Configuration
 
 The gateway supports two types of authentication: API Key and Basic Auth. The authentication type is configured in the `ToolConfiguration` object.
