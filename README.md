@@ -195,10 +195,29 @@ Human: Create a tool named 'get_crypto_price' that retrieves the current price o
 
 **Calling a Tool:**
 
+To call a tool, you can use a natural language prompt that describes the action you want to perform. The AI will then translate your prompt into a `tools/call` request.
+
+For example, if you have a tool called `get_crypto_price` that takes an `ids` parameter, you could use the following prompt to get the current price of bitcoin:
+
 ```
 Human: What is the current price of bitcoin?
 ```
-(This prompt would be translated by the AI into a `tools/call` request for the `get_crypto_price` tool with the `ids` parameter set to `bitcoin`.)
+
+The AI would then generate the following `tools/call` request:
+
+```json
+{
+  "jsonrpc": "2.0",
+  "method": "tools/call",
+  "params": {
+    "name": "get_crypto_price",
+    "arguments": {
+      "ids": "bitcoin"
+    }
+  },
+  "id": 1
+}
+```
 
 **Querying Call History:**
 
