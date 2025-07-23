@@ -187,28 +187,35 @@ Restart Claude Desktop to apply the changes.
 
 Here are some example prompts you can use to interact with the gateway:
 
-**Get a user from the CRM:**
+**Creating a Tool:**
 
 ```
-Human: Get the user with the ID "123" from the CRM.
+Human: Create a tool named 'get_crypto_price' that retrieves the current price of a cryptocurrency from the CoinGecko API. The API endpoint is 'https://api.coingecko.com/api/v3/simple/price' and it uses the 'GET' method. The tool should take a single parameter, 'ids', which is the ID of the cryptocurrency to look up.
 ```
 
-**Create a new incident:**
+**Calling a Tool:**
 
 ```
-Human: Create a new incident with the title "Server is down" and the description "The main web server is not responding."
+Human: What is the current price of bitcoin?
 ```
+(This prompt would be translated by the AI into a `tools/call` request for the `get_crypto_price` tool with the `ids` parameter set to `bitcoin`.)
 
-**List all high priority incidents:**
-
-```
-Human: List all high priority incidents.
-```
-
-**Get the call history for a tool:**
+**Querying Call History:**
 
 ```
-Human: Get the call history for the "get_weather" tool.
+Human: Show me the last 10 times the 'get_crypto_price' tool was called.
+```
+
+**Updating a Tool:**
+
+```
+Human: Update the 'get_crypto_price' tool to also accept a 'vs_currencies' parameter to specify the currency to compare against.
+```
+
+**Deleting a Tool:**
+
+```
+Human: Delete the 'get_crypto_price' tool.
 ```
 
 ### Authentication Configuration
