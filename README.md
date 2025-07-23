@@ -125,7 +125,30 @@ You can also create new tools on the fly by using the `create_tool_from_prompt` 
 **Example:**
 
 ```
-Human: Create a new tool called "get_weather" that gets the weather for a given city. The tool should use the "GET" method and the URL template "https://api.weather.com/v1/current.json?q={city}". The API key is "my_weather_api_key".
+Human: Create a new tool called "get_weather" that gets the weather for a given city. The tool should use the "GET" method and the URL template "https://api.weather.com/v1/current.json?q={city}". The tool should take a single parameter, "city", which should be mapped to the "q" query parameter. The API key is "my_weather_api_key" and it should be sent in a header called "X-API-KEY".
+```
+
+This prompt would be translated by the AI into a `tools/call` request for the `create_tool_from_prompt` tool with the following arguments:
+
+```json
+{
+  "mcp_tool_name": "get_weather",
+  "mcp_tool_description": "Get the weather for a given city.",
+  "target_api_method": "GET",
+  "target_api_url_template": "https://api.weather.com/v1/current.json",
+  "parameter_mappings": {
+    "query": ["q"],
+    "path": []
+  },
+  "auth_type": "API_KEY",
+  "raw_credentials": {
+    "api_key": "my_weather_api_key"
+  },
+  "api_key_details": {
+    "in": "header",
+    "name": "X-API-KEY"
+  }
+}
 ```
 
 #### Basic Authentication
