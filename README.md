@@ -84,30 +84,7 @@ To connect to the gateway, an MCP client needs to be configured with the followi
 *   **Port:** The port that the gateway is listening on.
 *   **Authentication:** The client will need to authenticate with the gateway using a JWT. The JWT can be obtained from the `/token` endpoint of the management API.
 
-The client should send the appropriate authentication credentials in the `headers` of the `initialize` request.
-
-#### JWT Authentication
-
-The client will need to authenticate with the gateway using a JWT. The JWT can be obtained from the `/token` endpoint of the management API.
-
-The client should send the JWT in the `Authorization` header of the `initialize` request, using the `Bearer` scheme. For example:
-
-```json
-{
-  "jsonrpc": "2.0",
-  "method": "initialize",
-  "params": {
-    "protocolVersion": "0.1",
-    "capabilities": {
-      "tools": true
-    }
-  },
-  "id": 1,
-  "headers": {
-    "Authorization": "Bearer <your_jwt>"
-  }
-}
-```
+The MCP client communicates with the MCP server without any authentication. The authentication is handled at the tool level when the `tools/call` method is invoked.
 
 #### API Key Authentication
 

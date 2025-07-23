@@ -37,7 +37,6 @@ def create_tool(tool: models.ToolConfiguration, db: Session = Depends(database.g
 
 @app.get("/tools/", response_model=List[models.ToolConfiguration])
 def read_tools(
-    owner_id: uuid.UUID,
     name_contains: str = None,
     method: str = None,
     skip: int = 0,
@@ -46,7 +45,7 @@ def read_tools(
     role: str = Depends(get_current_user_role),
 ):
     return crud.get_tool_configurations(
-        db, owner_id=owner_id, name_contains=name_contains, method=method, skip=skip, limit=limit
+        db, name_contains=name_contains, method=method, skip=skip, limit=limit
     )
 
 @app.get("/tools/{tool_id}", response_model=models.ToolConfiguration)

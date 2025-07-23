@@ -14,13 +14,12 @@ def get_tool_configuration(db: Session, tool_id: uuid.UUID):
 
 def get_tool_configurations(
     db: Session,
-    owner_id: uuid.UUID,
     name_contains: str = None,
     method: str = None,
     skip: int = 0,
     limit: int = 100,
 ):
-    query = db.query(database.ToolConfiguration).filter(database.ToolConfiguration.owner_id == owner_id)
+    query = db.query(database.ToolConfiguration)
     if name_contains:
         query = query.filter(database.ToolConfiguration.mcp_tool_name.contains(name_contains))
     if method:

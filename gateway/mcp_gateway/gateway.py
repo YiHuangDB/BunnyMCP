@@ -32,7 +32,7 @@ class Gateway(MCPServer):
     async def handle_tools_list(self, connection: "MCPConnection") -> list["Tool"]:
         db = SessionLocal()
         try:
-            tool_configs = get_tool_configurations(db, owner_id=connection.owner_id)
+            tool_configs = get_tool_configurations(db)
             tools = []
             for tool_config in tool_configs:
                 tools.append(
